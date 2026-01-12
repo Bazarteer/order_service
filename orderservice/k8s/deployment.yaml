@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orderservice-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: orderservice
+  template:
+    metadata:
+      labels:
+        app: orderservice
+    spec:
+      containers:
+      - name: orderservice
+        image: bazarteerregistry.azurecr.io/orderservice:0.0.2
+        ports:
+        - containerPort: 8080
+        - containerPort: 9092
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: "jdbc:postgresql://order-postgres:5432/order_service_db"
+        - name: SPRING_DATASOURCE_USERNAME
+          value: "postgres"
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: "testpass"

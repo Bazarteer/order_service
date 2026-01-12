@@ -27,7 +27,6 @@ public class OrderService extends OrderServiceGrpc.OrderServiceImplBase {
     @Override
     public void placeOrder(PlaceOrderRequest req, StreamObserver<PlaceOrderResponse> responseObserver) { 
         try {
-
             Order order = new Order();
             order.setCustumerId(req.getCustumerId());
             order.setSellerId(req.getSellerId());
@@ -38,7 +37,6 @@ public class OrderService extends OrderServiceGrpc.OrderServiceImplBase {
             order.setCreatedAt(LocalDateTime.now());
 
             orderRepository.save(order);
-
             publisher.publishOrderPlaced(order);
 
             PlaceOrderResponse res = PlaceOrderResponse.newBuilder().setOrderId(order.getId()).build();
